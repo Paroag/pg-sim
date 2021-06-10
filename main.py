@@ -7,6 +7,10 @@ from random import shuffle
 
 from utils import set_to_tuple
 
+TYPECHART = json.load(open('types.json', 'r'))
+ALL_TYPES = TYPECHART.keys()
+BANLIST = [{"Normal"}]
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -58,18 +62,10 @@ def iter_scoring(dic_scoring, typechart, max_iter=10):
     logging.info(f"max difference observed : {max_diff}")
     logging.info(f"min/max elo : {min(dic_scoring.values())}/{max(dic_scoring.values())}")
 
-    if max_diff < 5:
-        return dic_scoring
-
     return iter_scoring(dic_scoring, TYPECHART, max_iter=max_iter - 1)
 
 
 if __name__ == '__main__':
-
-    with open("types.json", "r") as f:
-        TYPECHART = json.load(f)
-    ALL_TYPES = [val for val in TYPECHART]
-    BANLIST = [{"Normal"}]
 
     double_types = [{a, b} for a, b in itertools.product(ALL_TYPES, ALL_TYPES) if {a, b} not in BANLIST]
 
