@@ -4,10 +4,10 @@ import logging
 
 from elo import rate_1vs1
 
-from lib.scoring import score
-from lib.iter_scoring import iter_scoring
+from pgsim.scoring import score
+from pgsim.iter_scoring import iter_scoring
 from resources import ALL_TYPES
-from lib.pokemon import DoubleType
+from pgsim.pokemon import DoubleType
 
 BANLIST = {"Normal"}
 logging.basicConfig(level=logging.INFO)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
         types_scoring,
         fight_function=score,
         update_score_function=rate_1vs1,
-        max_iter=20,
+        max_iter=15,
     )
 
     types_scoring_formatted = {

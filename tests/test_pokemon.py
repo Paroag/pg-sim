@@ -1,6 +1,6 @@
 import pytest
 
-from lib.pokemon import DoubleType, AdvancedDoubleType
+from pgsim.pokemon import DoubleType, AdvancedDoubleType
 
 
 def test_init():
@@ -45,3 +45,18 @@ def test_str():
     )
 
     assert(str(advanced_double_type1)) == "Fighting/Flying | Fighting | Fighting/Fighting"
+
+
+def test_eq():
+    assert DoubleType("Water", "Ground") == DoubleType("Ground", "Water")
+    assert DoubleType("Water", "Ground") != DoubleType("Water")
+
+
+def test_hash():
+    assert DoubleType("Water", "Ground").__hash__() == DoubleType("Ground", "Water").__hash__()
+    assert DoubleType("Water", "Ground") != DoubleType("Water")
+
+
+def test_get_types():
+    assert DoubleType("Water", "Ground").get_types() == {"Water", "Ground"}
+    assert DoubleType("Water").get_types() == {"Water"}

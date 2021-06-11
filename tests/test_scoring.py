@@ -1,6 +1,7 @@
 import pytest
 
-from lib.scoring import best_damage_multiplier, score_types
+from pgsim.scoring import best_damage_multiplier, score
+from pgsim.pokemon import DoubleType
 
 
 def test_best_damage_multiplier():
@@ -14,11 +15,11 @@ def test_best_damage_multiplier():
     assert best_damage_multiplier(["Poison"], ["Ground", "Steel"]) == pytest.approx(0.244140625)
 
 
-def test_score_types():
-    assert score_types(["Water", "Ground"], ["Grass", "Flying"]) == -1
-    assert score_types(["Fire", "Electric"], ["Ground"]) == -1
-    assert score_types(["Grass", "Bug"], ["Dark", "Ghost"]) == 0
-    assert score_types(["Grass", "Water"], ["Water", "Electric"]) == 1
-    assert score_types(["Grass"], ["Water", "Electric"]) == 1
-    assert score_types(["Fighting", "Ice"], ["Ice", "Rock"]) == 1
-    assert score_types(["Fighting"], ["Fairy", "Steel"]) == -1
+def test_score():
+    assert score(DoubleType("Water", "Ground"), DoubleType("Grass", "Flying")) == -1
+    assert score(DoubleType("Fire", "Electric"), DoubleType("Ground")) == -1
+    assert score(DoubleType("Grass", "Bug"), DoubleType("Dark", "Ghost")) == 0
+    assert score(DoubleType("Grass", "Water"), DoubleType("Water", "Electric")) == 1
+    assert score(DoubleType("Grass"), DoubleType("Water", "Electric")) == 1
+    assert score(DoubleType("Fighting", "Ice"), DoubleType("Ice", "Rock")) == 1
+    assert score(DoubleType("Fighting"), DoubleType("Fairy", "Steel")) == -1
