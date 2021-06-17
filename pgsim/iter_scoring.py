@@ -2,6 +2,7 @@ from itertools import product
 
 
 def iter_scoring(types_scoring, fight_function=None, update_score_function=None, max_iter=20):
+    """complexity: max_iter*len(type_scoring)**2"""
     if max_iter == 0:
         return types_scoring
     matches = list(product(types_scoring.keys(), types_scoring.keys()))

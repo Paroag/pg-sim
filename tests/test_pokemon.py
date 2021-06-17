@@ -44,19 +44,60 @@ def test_str():
         charge_move2_type="Fighting"
     )
 
-    assert(str(advanced_double_type1)) == "Fighting/Flying | Fighting | Fighting/Fighting"
+    assert(str(advanced_double_type1)) == "Fighting/Flying  | Fighting | Fighting/Fighting"
 
 
 def test_eq():
     assert DoubleType("Water", "Ground") == DoubleType("Ground", "Water")
     assert DoubleType("Water", "Ground") != DoubleType("Water")
 
-
-def test_hash():
-    assert DoubleType("Water", "Ground").__hash__() == DoubleType("Ground", "Water").__hash__()
-    assert DoubleType("Water", "Ground") != DoubleType("Water")
+    advanced_double_type1 = AdvancedDoubleType(
+        "Water",
+        "Ground",
+        fast_move_type="Water",
+        charge_move1_type="Water",
+        charge_move2_type="Grass",
+    )
+    advanced_double_type2 = AdvancedDoubleType(
+        "Ground",
+        "Water",
+        fast_move_type="Water",
+        charge_move1_type="Grass",
+        charge_move2_type="Water",
+    )
+    advanced_double_type3 = AdvancedDoubleType(
+        "Ground",
+        "Water",
+        fast_move_type="Water",
+        charge_move1_type="Grass",
+        charge_move2_type="Electric",
+    )
+    assert advanced_double_type1 == advanced_double_type2
+    assert advanced_double_type1 != advanced_double_type3
 
 
 def test_get_types():
     assert DoubleType("Water", "Ground").get_types() == {"Water", "Ground"}
     assert DoubleType("Water").get_types() == {"Water"}
+
+
+def test_get_fast_move_type():
+    advanced_double_type = AdvancedDoubleType(
+        "Water",
+        "Ground",
+        fast_move_type="Water",
+        charge_move1_type="Water",
+        charge_move2_type="Grass",
+    )
+    assert advanced_double_type.get_fast_move_type() == {"Water"}
+
+
+def test_get_charge_move_types():
+    advanced_double_type = AdvancedDoubleType(
+        "Water",
+        "Ground",
+        fast_move_type="Water",
+        charge_move1_type="Water",
+        charge_move2_type="Grass",
+    )
+    assert advanced_double_type.get_charge_move_types() == {"Water", "Grass"}
