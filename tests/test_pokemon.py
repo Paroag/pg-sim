@@ -1,4 +1,5 @@
 import pytest
+import random
 
 from pgsim.pokemon import DoubleType, AdvancedDoubleType
 
@@ -101,3 +102,32 @@ def test_get_charge_move_types():
         charge_move2_type="Grass",
     )
     assert advanced_double_type.get_charge_move_types() == {"Water", "Grass"}
+
+
+def test_mutate():
+    random.seed(0)
+    advanced_double_type = AdvancedDoubleType(
+        "Water",
+        "Ground",
+        fast_move_type="Electric",
+        charge_move1_type="Poison",
+        charge_move2_type="Steel",
+    )
+    advanced_double_type_mutated = AdvancedDoubleType(
+        "Water",
+        "Ground",
+        fast_move_type="Fighting",
+        charge_move1_type="Poison",
+        charge_move2_type="Steel",
+    )
+    advanced_double_type_mutated_twice = AdvancedDoubleType(
+        "Water",
+        "Normal",
+        fast_move_type="Fighting",
+        charge_move1_type="Poison",
+        charge_move2_type="Steel",
+    )
+    advanced_double_type.mutate()
+    assert advanced_double_type == advanced_double_type_mutated
+    advanced_double_type.mutate()
+    assert advanced_double_type == advanced_double_type_mutated_twice

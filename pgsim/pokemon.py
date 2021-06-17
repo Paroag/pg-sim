@@ -1,3 +1,5 @@
+import random
+
 from resources import ALL_TYPES
 
 
@@ -19,6 +21,18 @@ class DoubleType:
 
     def get_types(self):
         return {t for t in (self.type1, self.type2) if t is not None}
+
+    def mutate(self, pickable_type=None):
+        pickable_type = ALL_TYPES if pickable_type is None else pickable_type
+        mutable_attributes = ["type"]
+        attribute_to_mutate = random.choice(mutable_attributes)
+        if attribute_to_mutate == "type":
+            self._mutate_type(pickable_type=pickable_type)
+
+    def _mutate_type(self, pickable_type=None):
+        new_type = random.choice(pickable_type)
+        num = random.randint(1, 2)
+        setattr(self, f"type{num}", new_type)
 
     def __str__(self):
         return "/".join([t for t in (self.type1, self.type2) if t is not None])
@@ -50,6 +64,26 @@ class AdvancedDoubleType(DoubleType):
 
     def get_charge_move_types(self):
         return {t for t in (self.charge_move1_type, self.charge_move2_type)}
+
+    def mutate(self, pickable_type=None):
+        pickable_type = ALL_TYPES if pickable_type is None else pickable_type
+        mutable_attributes = ["type", "fast_move_type", "charge_move_type"]
+        attribute_to_mutate = random.choice(mutable_attributes)
+        if attribute_to_mutate == "type":
+            self._mutate_type(pickable_type=pickable_type)
+        if attribute_to_mutate == "fast_move_type":
+            self._mutate_fast_move(pickable_type=pickable_type)
+        if attribute_to_mutate == "charge_move_type":
+            self._mutate_charge_move(pickable_type=pickable_type)
+
+    def _mutate_fast_move(self, pickable_type=None):
+        new_fast_move_type = random.choice(pickable_type)
+        setattr(self, "fast_move_type", new_fast_move_type)
+
+    def _mutate_charge_move(self, pickable_type=None):
+        new_type = random.choice(pickable_type)
+        num = random.randint(1, 2)
+        setattr(self, f"charge_move{num}_type", new_type)
 
     def __str__(self):
         type_str = super().__str__()
