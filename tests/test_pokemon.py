@@ -1,5 +1,6 @@
-import pytest
 import random
+
+import pytest
 
 from pgsim.pokemon import DoubleType, AdvancedDoubleType
 

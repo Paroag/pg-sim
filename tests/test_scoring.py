@@ -1,7 +1,7 @@
 import pytest
 
+from pgsim.pokemon import DoubleType, AdvancedDoubleType
 from pgsim.scoring import best_damage_multiplier, score
-from pgsim.pokemon import DoubleType
 
 
 def test_best_damage_multiplier():
@@ -23,3 +23,17 @@ def test_score():
     assert score(DoubleType("Grass"), DoubleType("Water", "Electric")) == 1
     assert score(DoubleType("Fighting", "Ice"), DoubleType("Ice", "Rock")) == 1
     assert score(DoubleType("Fighting"), DoubleType("Fairy", "Steel")) == -1
+
+    advanced_double_type1 = AdvancedDoubleType(
+        "Normal",
+        fast_move_type="Normal",
+        charge_move1_type="Normal",
+        charge_move2_type="Water",
+    )
+    advanced_double_type2 = AdvancedDoubleType(
+        "Normal",
+        fast_move_type="Normal",
+        charge_move1_type="Water",
+        charge_move2_type="Water",
+    )
+    assert score(advanced_double_type1, advanced_double_type2) == 1

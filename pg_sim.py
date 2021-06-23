@@ -1,13 +1,16 @@
 import itertools
-import json
 import logging
+from pprint import pprint
 
+import matplotlib.pyplot as plt
 from elo import rate_1vs1
 
-from pgsim.scoring import score
+from pgsim.evolution import get_child, mutated
+from pgsim.iter_evolution import mutate_group
 from pgsim.iter_scoring import iter_scoring
-from resources import ALL_TYPES
-from pgsim.pokemon import DoubleType, AdvancedDoubleType
+from pgsim.pokemon import AdvancedDoubleType
+from pgsim.scoring import score
+from resources import ALL_TYPES, COLORS
 
 BANLIST = {"Normal"}
 logging.basicConfig(level=logging.INFO)
@@ -29,6 +32,15 @@ def sorted_score(table_score, reverse=True):
     }
 
 
+def count_types_occurence(type_scoring):
+    dic = {type:0 for type in ALL_TYPES}
+    for pokemon in type_scoring:
+        types = pokemon.get_types()
+        for type in types :
+            dic[type]+=1
+    return dic
+
+
 if __name__ == '__main__':
 
     double_types = {
@@ -43,31 +55,41 @@ if __name__ == '__main__':
         if a != b
     }
 
-    for generation_number in range(1, 5):
+    types_scoring = {double_type: 1000 for double_type in double_types}
+    plot = {type: [] for type in ALL_TYPES}
+
+    for generation_number in range(1, 100):
         print(f"Starting generation {generation_number}")
 
-        types_scoring = {double_type: 1000 for double_type in double_types}
         types_scoring = iter_scoring(
             types_scoring,
             fight_function=score,
             update_score_function=rate_1vs1,
-            max_iter=20,
+            max_iter=10,
         )
         types_scoring = sorted_score(types_scoring)
 
-        ####### KEEPING TOP 70%
-        top_type_scoring = {
-            k: v
-            for k,v
-            in types_scoring.items()[:120]
-        }
-        ####### DESENDENCE WITH ALL
-        child_type_scoring={
+        new_group = mutate_group(
+            list(types_scoring.keys()),
+            mutation_function=mutated,
+            reproduction_function=get_child,
+            conservation=130,
+            mutation=3,
+            reproduction=38,
+        )
 
-        }
+        types_scoring = {a: 1000 for a in new_group}
 
-        ####### SMALL VARIATION RANDOM
-        ####### FULL RANDOM, ADD LEFT
+        count = count_types_occurence(types_scoring)
+        for type, c in count.items():
+            plot[type].append(c)
 
-    with open("result.json", "w") as f:
-        json.dump(format_score(types_scoring), f, indent=4)
+fig, ax = plt.subplots()
+for type, serie in plot.items() :
+    ax.plot(serie, color=COLORS[type]["color"], label=type, marker = COLORS[type]["marker"])
+leg = ax.legend(loc='upper left', frameon=False, ncol=3)
+plt.show()
+"""with open("result.json", "w") as f:
+    json.dump(format_score(types_scoring), f, indent=4)"""
+
+#TODO : Refacto stab dans scoring, lib pour evolution, hyperparameters twiking

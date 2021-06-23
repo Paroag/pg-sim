@@ -1,0 +1,74 @@
+{
+    "Water": {
+        "color": "cornflowerblue",
+        "marker": "8"
+    },
+    "Ghost": {
+        "color": "darkslateblue",
+        "marker": "d"
+    },
+    "Fairy": {
+        "color": "violet",
+        "marker": "p"
+    },
+    "Grass": {
+        "color": "forestgreen",
+        "marker": "X"
+    },
+    "Fire": {
+        "color": "orangered",
+        "marker": "^"
+    },
+    "Dragon": {
+        "color": "indigo",
+        "marker": "H"
+    },
+    "Steel": {
+        "color": "darkgrey",
+        "marker": "s"
+    },
+    "Rock": {
+        "color": "sienna",
+        "marker": "o"
+    },
+    "Normal": {
+        "color": "bisque",
+        "marker": "*"
+    },
+    "Flying": {
+        "color": "thistle",
+        "marker": ">"
+    },
+    "Psychic": {
+        "color": "deeppink",
+        "marker": "v"
+    },
+    "Dark": {
+        "color": "black",
+        "marker": "o"
+    },
+    "Bug": {
+        "color": "limegreen",
+        "marker": "<"
+    },
+    "Fighting": {
+        "color": "darksalmon",
+        "marker": "p"
+    },
+    "Electric": {
+        "color": "yellow",
+        "marker": "o"
+    },
+    "Ice": {
+        "color": "cyan",
+        "marker": "*"
+    },
+    "Poison": {
+        "color": "purple",
+        "marker": "d"
+    },
+    "Ground": {
+        "color": "chocolate",
+        "marker": "P"
+    }
+}

@@ -1,3 +1,4 @@
+import copy
 import random
 
 from pgsim.pokemon import AdvancedDoubleType
@@ -30,3 +31,9 @@ def get_child(advanced_double_type1: AdvancedDoubleType, advanced_double_type2: 
         charge_move1_type=charge_move1_type,
         charge_move2_type=charge_move2_type,
     )
+
+
+def mutated(advanced_double_type: AdvancedDoubleType):
+    advanced_double_type_mutated = copy.deepcopy(advanced_double_type)
+    advanced_double_type_mutated.mutate()
+    return advanced_double_type_mutated

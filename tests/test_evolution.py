@@ -1,6 +1,7 @@
-from pgsim.evolution import get_child
-from pgsim.pokemon import AdvancedDoubleType
+import random
 
+from pgsim.evolution import get_child, mutated
+from pgsim.pokemon import AdvancedDoubleType
 
 ADVANCED_DOUBLE_TYPE1 = AdvancedDoubleType(
     "Water",
@@ -37,3 +38,21 @@ def test_get_child():
         {'Water', 'Grass'}, {'Water', 'Fairy'}, {'Water', 'Fire'},
         {'Grass', 'Fairy'}, {'Grass', 'Fire'}, {'Fairy', 'Fire'}
     ]
+
+
+def test_mutated():
+    random.seed(0)
+    advanced_double_type = AdvancedDoubleType(
+        "Water",
+        "Ground",
+        fast_move_type="Electric",
+        charge_move1_type="Water",
+        charge_move2_type="Grass",
+    )
+    assert mutated(advanced_double_type) == AdvancedDoubleType(
+        "Water",
+        "Ground",
+        fast_move_type="Fighting",
+        charge_move1_type="Water",
+        charge_move2_type="Grass",
+    )

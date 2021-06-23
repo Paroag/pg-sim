@@ -37,6 +37,9 @@ class DoubleType:
     def __str__(self):
         return "/".join([t for t in (self.type1, self.type2) if t is not None])
 
+    def __repr__(self):
+        return self.__str__()
+
     def __eq__(self, double_type):
         return set(self.get_types()) == set(double_type.get_types())
 
